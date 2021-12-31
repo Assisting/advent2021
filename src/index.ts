@@ -1,5 +1,5 @@
 import * as readline from "node:readline";
-import { challenge, bonus } from "./dayone";
+import { challenge } from "./daytwo";
 
 var rl = readline.createInterface({
 	input: process.stdin,
@@ -12,7 +12,7 @@ rl.on("line", (line) => {
 		lines.push(line);
 	} else {
 		rl.close();
-		bonus(lines);
+		challenge(lines);
 	}
 });
 
