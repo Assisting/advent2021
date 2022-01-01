@@ -1,5 +1,5 @@
-import * as readline from "node:readline";
-import { challenge } from "./daytwo";
+import * as readline from 'node:readline';
+import { challenge } from './day03';
 
 var rl = readline.createInterface({
 	input: process.stdin,
@@ -7,7 +7,7 @@ var rl = readline.createInterface({
 
 var lines: Array<string> = [];
 
-rl.on("line", (line) => {
+rl.on('line', (line) => {
 	if (!isBlankString(line)) {
 		lines.push(line);
 	} else {
