@@ -1,21 +1,21 @@
-import is_number from "is-number";
+import is_number from 'is-number';
 
 export function challenge(moves: Array<string>) {
 	var [xPos, yPos]: [number, number] = [0, 0];
 	moves.forEach((move: string, index: number) => {
-		var directionAndMagnitude: Array<string> = move.split(" ");
+		var directionAndMagnitude: Array<string> = move.split(' ');
 		if (is_number(directionAndMagnitude[1])) {
 			var direction: string = directionAndMagnitude[0];
 			var magnitude: number = Number(directionAndMagnitude[1]);
 
 			switch (direction) {
-				case "forward":
+				case 'forward':
 					xPos += magnitude;
 					break;
-				case "up": // We're interested in depth, so up is negative
+				case 'up': // We're interested in depth, so up is negative
 					yPos -= magnitude;
 					break;
-				case "down":
+				case 'down':
 					yPos += magnitude;
 					break;
 				default:
@@ -37,20 +37,20 @@ export function bonus(moves: Array<string>) {
 	var [xPos, yPos]: [number, number] = [0, 0];
 	var aim: number = 0;
 	moves.forEach((move: string, index: number) => {
-		var directionAndMagnitude: Array<string> = move.split(" ");
+		var directionAndMagnitude: Array<string> = move.split(' ');
 		if (is_number(directionAndMagnitude[1])) {
 			var direction: string = directionAndMagnitude[0];
 			var magnitude: number = Number(directionAndMagnitude[1]);
 
 			switch (direction) {
-				case "forward":
+				case 'forward':
 					xPos += magnitude;
 					yPos += (aim * magnitude);
 					break;
-				case "up": // Up still negative
+				case 'up': // Up still negative
 					aim -= magnitude;
 					break;
-				case "down":
+				case 'down':
 					aim += magnitude;
 					break;
 				default:

@@ -1,4 +1,4 @@
-import is_number from "is-number";
+import is_number from 'is-number';
 
 export function challenge(readings: Array<string>) {
 	var i: number = 0;
