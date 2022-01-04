@@ -1,5 +1,5 @@
 import * as readline from 'node:readline';
-import { bonus } from './day03';
+import { bonus, challenge } from './day03';
 
 var rl = readline.createInterface({
 	input: process.stdin,
@@ -10,10 +10,13 @@ var lines: Array<string> = [];
 rl.on('line', (line) => {
 	if (!isBlankString(line)) {
 		lines.push(line);
-	} else {
-		rl.close();
-		bonus(lines);
 	}
+});
+
+process.on('SIGINT', function () {
+	rl.close();
+	bonus(lines);
+	process.exit();
 });
 
 function isBlankString(inputString: string) {
