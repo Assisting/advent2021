@@ -1,12 +1,69 @@
+import { BindOptions } from 'dgram';
 import is_number from 'is-number';
 import leftPad from 'left-pad';
 
 export function challenge(lines: Array<string>) {
 	var numbersCalled: Array<number> = [];
-	// The numbers called come in as comma-separated string values
 	if (lines && lines[0]) {
-		numbersCalled = lines
-			.shift()!
+		numbersCalled = populateCalls(lines.shift()!);
+	}
+
+	var bingoCards: Array<BingoCard> = populateCards(lines);
+
+	numbersCalled.forEach((called: number) => {
+		bingoCards.forEach((card: BingoCard, index: number) => {
+			card.callNumber(called);
+			if (card.isWinner()) {
+				console.log(`Card #${index} won!`);
+				card.printCard();
+				var total: number = card.uncalledTotal();
+				console.log(
+					`Winning number call: ${called}\tScore: ${total}\tProduct: ${
+						called * total
+					}`
+				);
+				process.exit();
+			}
+		});
+	});
+}
+
+export function bonus(lines: Array<string>) {
+	var numbersCalled: Array<number> = [];
+	if (lines && lines[0]) {
+		numbersCalled = populateCalls(lines.shift()!);
+	}
+
+	var bingoCards: Array<BingoCard> = populateCards(lines);
+
+	numbersCalled.forEach((called: number) => {
+		bingoCards.forEach((card: BingoCard) => {
+			card.callNumber(called);
+		});
+		if (bingoCards.length > 1) {
+			bingoCards = bingoCards.filter((card: BingoCard) => {
+				return !card.isWinner();
+			});
+		}
+
+		if (
+			bingoCards.length == 1 &&
+			bingoCards.every((card) => card.isWinner())
+		) {
+			var total: number = bingoCards[0].uncalledTotal();
+			bingoCards[0].printCard();
+			console.log(
+				`Last winning number call: ${called}\tScore: ${total}\tProduct: ${
+					called * total
+				}`
+			);
+			process.exit(0);
+		}
+	});
+}
+
+function populateCalls(callLine: string): Array<number> {
+	return 	callLine
 			.split(',')
 			.map((lineItem) => {
 				if (is_number(lineItem)) {
@@ -15,9 +72,9 @@ export function challenge(lines: Array<string>) {
 					throw `Found non-number in first line ${lineItem}`;
 				}
 			});
-	}
+}
 
-	// Subsequent lines represent bingo cards in groups of 5
+function populateCards(lines: Array<string>): Array<BingoCard> {
 	var bingoCards: Array<BingoCard> = [];
 	if (lines.length % 5 == 0) {
 		var numberOfCardsInInput: number = lines.length / 5;
@@ -37,27 +94,11 @@ export function challenge(lines: Array<string>) {
 			bingoCards.push(new BingoCard(numericCardArea));
 		}
 	}
-
-	numbersCalled.forEach((called: number) => {
-		bingoCards.forEach((card: BingoCard, index: number) => {
-			card.callNumber(called);
-			if (card.isWinner()) {
-				console.log(`Card #${index} won!`)
-				card.printCard();
-				var total: number = card.uncalledTotal();
-				console.log(
-					`Winning number call: ${called}\tScore: ${total}\tProduct: ${
-						called * total
-					}`
-				);
-				process.exit();
-			}
-		});
-	});
+	return bingoCards;
 }
 
 class BingoCard {
-	cardArea: Array<Array<number>> = [[]];
+	cardArea: Array<Array<number>> = [];
 
 	public constructor(cardArea: Array<Array<number>>) {
 		this.cardArea = cardArea;
@@ -65,10 +106,7 @@ class BingoCard {
 
 	/** A winning card is one with any complete row or column, but not diagonal */
 	public isWinner(): boolean {
-		return (
-			this.columnWin() ||
-			this.rowWin()
-		);
+		return this.columnWin() || this.rowWin();
 	}
 
 	private columnWin(): boolean {
@@ -87,13 +125,13 @@ class BingoCard {
 	}
 
 	private rowWin(): boolean {
-		for (var row = 0; row < 5; row ++) {
+		for (var row = 0; row < 5; row++) {
 			if (
-			Number.isNaN(this.cardArea[row][0]) &&
-			Number.isNaN(this.cardArea[row][1]) &&
-			Number.isNaN(this.cardArea[row][2]) &&
-			Number.isNaN(this.cardArea[row][3]) &&
-			Number.isNaN(this.cardArea[row][4])
+				Number.isNaN(this.cardArea[row][0]) &&
+				Number.isNaN(this.cardArea[row][1]) &&
+				Number.isNaN(this.cardArea[row][2]) &&
+				Number.isNaN(this.cardArea[row][3]) &&
+				Number.isNaN(this.cardArea[row][4])
 			) {
 				return true;
 			}
