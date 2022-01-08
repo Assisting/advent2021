@@ -1,4 +1,3 @@
-import { BindOptions } from 'dgram';
 import is_number from 'is-number';
 import leftPad from 'left-pad';
 
