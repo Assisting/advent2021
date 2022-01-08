@@ -19,8 +19,7 @@ export function challenge(inputLines: Array<string>) {
         var ventLine = new ThermalVentLine(startPoint, endPoint)
 
         // In the base challenge, we discard diagnomal lines.
-        if (ventLine.isHorizontal() || ventLine.isVertical())
-        {
+        if (ventLine.isHorizontal() || ventLine.isVertical()) {
             ventLines.push(ventLine);
             maxX = Math.max(maxX, ventLine.maximumXPos());
             maxY = Math.max(maxY, ventLine.maximumYPos());
@@ -32,8 +31,7 @@ export function challenge(inputLines: Array<string>) {
     var dangerousAreas: number = 0;
     for (var yPos = 0; yPos <= maxY; yPos++) {
         for (var xPos = 0; xPos <= maxY; xPos++) {
-            if (oceanFloor[xPos][yPos] > 1)
-            {
+            if (oceanFloor[xPos][yPos] > 1) {
                 dangerousAreas++;
             }
         }
@@ -46,23 +44,21 @@ function populateOceanFloor(ventLines: Array<ThermalVentLine>, maxX: number, max
     var oceanFloor: Array<Array<number>> = [];
     for (var xPos = 0; xPos <= maxX; xPos++) {
         var yEntry: Array<number> = [];
-        for(var yPos = 0; yPos <= maxY; yPos++) {
+        for (var yPos = 0; yPos <= maxY; yPos++) {
             yEntry.push(0);
         }
         oceanFloor.push(yEntry);
     }
     ventLines.forEach((ventLine: ThermalVentLine) => {
         if (ventLine.isVertical()) {
-            for (var i: number = ventLine.minimumYPos(); i <= ventLine.maximumYPos(); i++)
-            {
+            for (var i: number = ventLine.minimumYPos(); i <= ventLine.maximumYPos(); i++) {
                 if (oceanFloor[ventLine.maximumXPos()][i] == undefined) {
                     oceanFloor[ventLine.maximumXPos()][i] = 0;
                 }
                 oceanFloor[ventLine.maximumXPos()][i] += 1;
             }
         } else if (ventLine.isHorizontal()) {
-            for (var i: number = ventLine.minimumXPos(); i <= ventLine.maximumXPos(); i++)
-            {
+            for (var i: number = ventLine.minimumXPos(); i <= ventLine.maximumXPos(); i++) {
                 if (oceanFloor[i][ventLine.maximumYPos()] == undefined) {
                     oceanFloor[i][ventLine.maximumYPos()] = 0;
                 }
