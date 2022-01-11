@@ -1,8 +1,8 @@
 import * as readline from 'node:readline';
-import { bonus } from './day06';
+import { bonus } from './day07';
 
 var rl = readline.createInterface({
-	input: process.stdin,
+	input: process.stdin
 });
 
 var lines: Array<string> = [];
