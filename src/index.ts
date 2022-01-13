@@ -1,5 +1,5 @@
 import * as readline from 'node:readline';
-import { bonus } from './day07';
+import { bonus } from './day08';
 
 var rl = readline.createInterface({
 	input: process.stdin
