@@ -15,7 +15,7 @@ export function bonus(lines: Array<string>) {
 
     var acc: number = 0;
     for (var entry: number = 0; entry < segmentsInput.length; entry++) {
-        var decoder: Array<Array<string>> = []
+        var decoder: Array<Array<string>> = [];
 
         decoder[8] = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
         segmentsInput[entry].forEach((segments: string) => {
@@ -27,7 +27,7 @@ export function bonus(lines: Array<string>) {
             } else if (segments.length == 4) {
                 decoder[4] = segmentsArray;
             }
-        })
+        });
 
         var inFourButNotOne = materialNonimplication(decoder[4], decoder[1]);
 
@@ -50,7 +50,7 @@ export function bonus(lines: Array<string>) {
                     decoder[6] = segmentsArray;
                 }
             }
-        })
+        });
 
         acc += convertSegmentsToFourDigitNumber(segmentsOutput[entry], decoder);
     }
@@ -85,12 +85,12 @@ function isSuperset(set: Array<string>, proposedSubset: Array<string>): boolean 
 
 /**
  * Given the puzzle's output and the array to decode them, returns the final 4 digit result
- * @param outputSegments The 4 digit obfuscalted value, as an array of string values.
- * @param decoderRing An array of arrays of degments, where the value at index 0 decodes for digit 0, 1 for 1, etc.
+ * @param outputSegments The 4 digit obfuscated value, as an array of string values.
+ * @param decoderRing An array of arrays of segments, where the value at index 0 decodes for digit 0, 1 for 1, etc.
  * @returns The 4 digit cleartext value
  */
 function convertSegmentsToFourDigitNumber(outputSegments: Array<string>, decoderRing: Array<Array<string>>): number {
-    var result: string = ''
+    var result: string = '';
     outputSegments.forEach((segments: string, inverseTensPlace: number) => {
         var digit: number = decoderRing.findIndex(decoder => {
             return decoder.length == segments.length && decoder.every(segment => segments.indexOf(segment) != -1);
