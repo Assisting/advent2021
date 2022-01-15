@@ -1,5 +1,5 @@
 import * as readline from 'node:readline';
-import { bonus } from './day08';
+import { challenge } from './day09';
 
 var rl = readline.createInterface({
 	input: process.stdin
@@ -15,7 +15,7 @@ rl.on('line', (line) => {
 
 process.on('SIGINT', function () {
 	rl.close();
-	bonus(lines);
+	challenge(lines);
 	process.exit();
 });
 
